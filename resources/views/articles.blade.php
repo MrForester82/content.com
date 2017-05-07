@@ -17,6 +17,9 @@
       <p><a class="btn btn-default" href=" {{ route('showArticle', ['id' => $article->id]) }}" role="button">Подробнее &raquo;</a></p>
    	</div>
   @endforeach
+  <div style="text-align: center;">
+  	<?php echo $articles->render(); ?>
+  </div>
   
 </div> <!-- /container -->
 
