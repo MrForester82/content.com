@@ -12,7 +12,7 @@
 	{!! Form::open(['route'=>'article.list', 'method'=>'GET', 'class'=>'navbar-form navbar-right', 'role'=>'search']) !!}
 	<!--<form action="GET" class="navbar-form navbar-right" role="search">-->
 	  <div class="input-group">
-	  	{!! Form::text('term', '', ['class'=>'form-control', 'placeholder'=>'Поиск...']) !!}
+	  	{!! Form::text('term', Request::get('term'), ['class'=>'form-control', 'placeholder'=>'Поиск...']) !!}
 	  	<!--<input type="text" name="term" id="term" class="form-control" placeholder="Поиск...">-->
 	  	<span class="input-group-btn">
 	  		<button type="submit" class="btn btn-default">
