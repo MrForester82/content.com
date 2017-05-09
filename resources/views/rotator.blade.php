@@ -35,6 +35,7 @@
 		    		<input type="hidden" name="parent_id" id="parent_id" value="{{$comment->id}}">
 		    		<input type="hidden" name="author" id="author" value="{{ Auth::user()->name }}">
 		    		<input type="hidden" name="email" id="email" value="{{ Auth::user()->email }}">
+		    		<input type="hidden" name="id_article" id="ia_article" value="{{ $article->id }}">
 		    		<button type="btn btn-default">Ответить</button>
 		    		{{csrf_field()}}
 				</form>

@@ -9,11 +9,28 @@
 </div>
 
 <div class="container">
+	{!! Form::open(['route'=>'article.list', 'method'=>'GET', 'class'=>'navbar-form navbar-right', 'role'=>'search']) !!}
+	<!--<form action="GET" class="navbar-form navbar-right" role="search">-->
+	  <div class="input-group">
+	  	{!! Form::text('term', '', ['class'=>'form-control', 'placeholder'=>'Поиск...']) !!}
+	  	<!--<input type="text" name="term" id="term" class="form-control" placeholder="Поиск...">-->
+	  	<span class="input-group-btn">
+	  		<button type="submit" class="btn btn-default">
+	  			<span class="glyphicon glyphicon-search"></span>
+	  		</button>
+	  	</span>
+	  </div>
+	  {{csrf_field()}}
+	<!--</form>-->
+	{!! Form::close() !!}
+</div> <!-- /container -->
+
+<div class="container">
   
   @foreach($articles as $article)
   	<div class="row">
       <h2> {{ $article->title }} </h2>
-      <p> {!! $article->description !!} </p>
+      <p class="text-justify"> {{ $article->description }} </p>
       <p><a class="btn btn-default" href=" {{ route('showArticle', ['id' => $article->id]) }}" role="button">Подробнее &raquo;</a></p>
    	</div>
   @endforeach

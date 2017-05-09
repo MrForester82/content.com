@@ -19,7 +19,7 @@ class CommentsController extends Controller
 												'author'=>$author,
 											]);
 		*/
-		$comments=Comment::all(); //Выбрали все записи из таблицы comments
+		$comments=Comment::all()->where('id_article', $id); //Выбрали все записи из таблицы comments
 		
 		
 		return view('article-content',['tree'=>$this->makeArray($comments)])->with([	'article'=>$article,
