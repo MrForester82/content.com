@@ -11,9 +11,31 @@ use App\Comment;
 
 class IndexController extends Controller
 {
-    public function index()
+	
+	protected function getUserIdByName($name)
+	{
+		$id = User::select('id')->where('name', $name)->first();
+		return $id['id'];
+	}
+	
+    public function index(Request $request)
     {
-    	$articles = Article::select('id', 'title', 'description')->paginate(3);
+    	if($term = $request['term'])
+    	{
+    		$id = $this->getUserIdByName($term);
+    		
+			$articles = Article::select('id', 'title', 'description', 'id_user')
+								->where('title', 'like', '%'.$term.'%')
+								->orWhere(strval('id_user'), $id)
+								->orderBy('adding_date')
+								->paginate(3);
+		}
+    	else
+    	{
+    		$articles = Article::select('id', 'title', 'description')
+    							->orderBy('adding_date')
+    							->paginate(3);
+    	}
     	//dump($articles);
 		return view('articles')->with(['articles'=>$articles]);
 	}
