@@ -35,7 +35,7 @@ class IndexController extends Controller
     		$articles = Article::select('id', 'title', 'description')
     							->orderBy('adding_date')
     							->paginate(3);
-    	}
+    	}    	
     	//dump($articles);
 		return view('articles')->with(['articles'=>$articles]);
 	}
@@ -56,7 +56,8 @@ class IndexController extends Controller
 		
 		return view('article-content')->with([	'article'=>$article,
 												'author'=>$author,
-												'comments'=>$comment]);
+												'comments'=>$comment,
+												'likes'=>$likes]);
 	}
 	
 	public function add()

@@ -21,7 +21,6 @@ Route::post('article/create', 'IndexController@store') -> name('storeArticle');
 Route::get('article/{id}', 'CommentsController@index') -> name('showArticle');
 Route::post('article/{id?}', 'CommentsController@addComment') -> name('addComment');
 
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
