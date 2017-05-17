@@ -24,3 +24,12 @@ Route::post('article/{id?}', 'CommentsController@addComment') -> name('addCommen
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::prefix('admin')->group(function() 
+{
+	Route::get('/login', 'AdminLoginController@showLoginForm') -> name('admin.login');
+	Route::post('/login', 'AdminLoginController@login') -> name('admin.login.submit');
+	Route::get('/', 'AdminController@index') -> name('admin.dashboard');
+});
+
+
