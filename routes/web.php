@@ -29,6 +29,13 @@ Route::prefix('admin')->group(function()
 {
 	Route::get('/login', 'AdminLoginController@showLoginForm') -> name('admin.login');
 	Route::post('/login', 'AdminLoginController@login') -> name('admin.login.submit');
+	Route::get('/article/list', 'AdminCommandController@showArticleList') -> name('admin.article.list');
+	Route::get('/article/{id}', 'AdminCommandController@editArticle') -> name('edit.article');
+	Route::post('/article/{id?}', 'AdminCommandController@saveArticle') -> name('save.article');
+	Route::get('/comments', 'AdminCommandController@showComments') -> name('admin.comments');
+	Route::post('/comments', 'AdminCommandController@delComment') -> name('admin.delete.comment');
+	Route::get('/users', 'AdminCommandController@showUsers') -> name('admin.users');
+	Route::post('/users', 'AdminCommandController@banUser') -> name('admin.ban.user');
 	Route::get('/', 'AdminController@index') -> name('admin.dashboard');
 });
 

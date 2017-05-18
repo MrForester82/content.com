@@ -7,22 +7,14 @@
    {
 		document.getElementById($id).style.display='block';
    }
-   
-   $('#likeArticleForm').submit(function(e){
-    e.preventDefault();
-    $.ajax({
-      url: "../../app/Http/Controllers/LikesController.php",
-      type: "POST",
-      data: $('#likeArticleForm').serialize(),
-      success: function(response) {
-        //обработка успешной отправки
-      },
-      error: function(response) {
-        //обработка ошибок при отправке
-     }
-    });
-});
 </script>
+
+<?php
+	if(!Auth::guest())	
+		$isbanned = DB::table('bans')->select('id')->where('id_user', Auth::user()->id)->first();
+	if(isset($isbanned))
+		return redirect('/home');
+?>
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
@@ -102,7 +94,7 @@
 									<h4>{{$comment->author}}</h4>
 								</div>
 								<div class="col-xs-3">
-									<h5>{{$comment->created_at}} {{ $comment->id }}</h5>
+									<h5>{{$comment->created_at}}</h5>
 								</div>
 								@if(!Auth::guest())
 								<div class="col-xs-2">

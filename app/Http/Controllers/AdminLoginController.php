@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
+use Article;
 
 class AdminLoginController extends Controller
 {
@@ -32,7 +33,7 @@ class AdminLoginController extends Controller
         	return redirect()->intended(route('admin.dashboard'));
       	}
       	
-      	return redirect()->back()->withInput($request->only('email', 'remember'));
-      	
+      	return redirect()->back()->withInput($request->only('email', 'remember'));	
 	}
+	
 }

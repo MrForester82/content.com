@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Article;
 use App\User;
 use App\Comment;
+use App\Partition;
+use Auth;
 
 class IndexController extends Controller
 {
@@ -20,6 +22,13 @@ class IndexController extends Controller
 	
     public function index(Request $request)
     {
+    	if(!Auth::guest())	
+    		$isbanned = DB::table('bans')->select('id')->where('id_user', Auth::user()->id)->first();
+    	if(isset($isbanned))
+		{
+			return redirect('/home');
+		}
+    	
     	if($term = $request['term'])
     	{
     		$id = $this->getUserIdByName($term);
@@ -28,16 +37,28 @@ class IndexController extends Controller
 								->where('title', 'like', '%'.$term.'%')
 								->orWhere(strval('id_user'), $id)
 								->orderBy('adding_date')
-								->paginate(3);
+								->paginate(5);
 		}
-    	else
+		
+		if(isset($request->partition))
+		{
+			$id_partition = Partition::select('id')->where('partition', $request->partition)->first();
+			//dump($id_partition->id);
+			$articles = Article::select('id', 'title', 'description')
+								->where('id_partition', $id_partition->id)
+    							->orderBy('adding_date')->get();
+		}
+		
+    	if(!isset($articles))
     	{
     		$articles = Article::select('id', 'title', 'description')
     							->orderBy('adding_date')
-    							->paginate(3);
-    	}    	
-    	//dump($articles);
-		return view('articles')->with(['articles'=>$articles]);
+    							->paginate(5);
+    	}   
+    	
+		return view('articles')->with([	'articles'=>$articles
+										//'partitions'=>$part
+									]);
 	}
 	
 	public function showArticle($id)
@@ -62,11 +83,12 @@ class IndexController extends Controller
 	
 	public function add()
     {
-    	/*
-    	if(Auth::user())
-    		return redirect()->back();
-    	else*/
-			return view('add-article');
+    	if(!Auth::guest())	
+    		$isbanned = DB::table('bans')->select('id')->where('id_user', Auth::user()->id)->first();
+    	if(isset($isbanned))
+			return redirect('/home');
+
+		return view('add-article');
 	}
 	
 	public function store(Request $request)
@@ -80,12 +102,15 @@ class IndexController extends Controller
 		$data = $request->all();
 		$article = new Article;
 		$article->fill($data);
+		
+		$id_partition = Partition::select('id')->where('partition', $request->partition)->first();
 		//$article->save();
 		DB::table('articles')->insert([
 			'title' => $article['title'],
 			'text' => $article['text'],
 			'description' => $article['description'],
-			'id_user' => $article['id_user']
+			'id_user' => $article['id_user'],
+			'id_partition' => $id_partition->id
 		]);
 		return redirect('article/list');
 	}

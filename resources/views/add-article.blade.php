@@ -24,6 +24,24 @@
 				<label for="text">Текст статьи</label>
 				<textarea type="text" class="form-control" id="text" name="text"></textarea>
 			</div>
+			
+			<div class="form-group">
+				<?php
+			  		$partitions = DB::table('partitions')
+			  							->select('partition')->get();
+			    	$part = [];
+			    	
+			    	echo "<label for=\"partition\">Раздел</label><br>";
+			    	echo "<select name=\"partition\" id=\"partition\">";
+			    	foreach($partitions as $partition)
+			    	{
+						//array_push($part, $partition->partition);
+						echo "<option value=\"".$partition->partition."\">".$partition->partition."</option>";
+					}
+					echo "</select>";
+			  	?>
+			</div>
+			
 			<input type="hidden" name="id_user" value="{{ Auth::user()->id }}">
 			<button type="submit" class="btn btn-default">Добавить</button>
 			{{ csrf_field() }}

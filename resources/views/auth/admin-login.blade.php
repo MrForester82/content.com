@@ -54,9 +54,6 @@
                                     Войти
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Забыли пароль?
-                                </a>
                             </div>
                         </div>
                     </form>

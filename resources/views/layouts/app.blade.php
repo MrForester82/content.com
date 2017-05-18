@@ -43,10 +43,21 @@
                 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       				<ul class="nav navbar-nav">
-        				<li><a href="{{ url('article/list') }}">Статьи</a></li>
+        				@if (Auth::guard('admin')->check())
+        					<li><a href="{{ url('admin/article/list') }}">Статьи</a></li>
+        					<li><a href="{{ url('admin/comments') }}">Комментарии</a></li>
+        					<li><a href="{{ url('admin/users') }}">Пользователи</a></li>
+        					<li><a href="{{ url('admin/') }}">Кабинет</a></li>
+        				@else
+        					<li><a href="{{ url('article/list') }}">Статьи</a></li>
+        				@endif
         				@if (!Auth::guest())
-        				<li><a href="{{ url('article/create') }}">Добавление статьи</a></li>
-        				<li><a href="{{ url('home') }}">Кабинет</a></li>
+        					@if(Auth::guard('admin')->check())
+        					
+        					@else
+        					<li><a href="{{ url('article/create') }}">Добавление статьи</a></li>
+        					<li><a href="{{ url('home') }}">Кабинет</a></li>
+        					@endif
         				@endif
       				</ul>
       			</div><!-- /.navbar-collapse -->
@@ -61,12 +72,20 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
+                        	@if(!Auth::guard('admin')->check())
                             <li><a href="{{ route('login') }}">Вход</a></li>
                             <li><a href="{{ route('register') }}">Регистрация</a></li>
+                            @endif
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                	@if(Auth::guard('admin')->check())
+                                		{{ Auth::user()->name }} <span class="caret"></span>
+                                	@else
+                                		@if(Auth::check())
+                                    		{{ Auth::user()->name }} <span class="caret"></span>
+                                    	@endif
+                                    @endif
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">

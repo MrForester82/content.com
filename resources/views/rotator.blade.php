@@ -1,9 +1,3 @@
-<script>
-   function displayForm($id)
-   {
-		document.getElementById($id).style.display='block';
-   }
-</script>
 
 @foreach($tree as $comment)
 	<div style="margin-left: 20px;" class="comment child">

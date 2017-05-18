@@ -7,6 +7,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<h2>Личный кабинет</h2>
+                	<?php
+                		$isbanned = DB::table('bans')->select('id')->where('id_user', Auth::user()->id)->first();
+                		if(isset($isbanned))
+                		{
+							echo "<h2 style=\"color: red;\">Вас забанили</h2>";
+						}
+                	?>
                 </div>
 
                 <div class="panel-body">
