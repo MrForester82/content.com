@@ -16,10 +16,14 @@ class AdminCommandController extends Controller
 {
     public function showArticleList()
 	{
-		if(Auth::guest())
-			return redirect('/');
-		else
-			$isuser = User::select('id')->where('id', Auth::user()->id)->first();
+		if(!Auth::guard('admin')->check())
+		{
+			if(Auth::guest())
+				return redirect('/');
+			else
+				$isuser = User::select('id')->where('id', Auth::user()->id)->first();
+		}
+		
 		
 		if(isset($isuser))
 		{
@@ -34,10 +38,13 @@ class AdminCommandController extends Controller
 	
 	public function editArticle($id)
 	{
-		if(Auth::guest())
-			return redirect('/');
-		else
-			$isuser = User::select('id')->where('id', Auth::user()->id)->first();
+		if(!Auth::guard('admin')->check())
+		{
+			if(Auth::guest())
+				return redirect('/');
+			else
+				$isuser = User::select('id')->where('id', Auth::user()->id)->first();
+		}
 		
 		if(isset($isuser))
 		{
@@ -76,10 +83,13 @@ class AdminCommandController extends Controller
 	
 	public function showComments()
 	{
-		if(Auth::guest())
-			return redirect('/');
-		else
-			$isuser = User::select('id')->where('id', Auth::user()->id)->first();
+		if(!Auth::guard('admin')->check())
+		{
+			if(Auth::guest())
+				return redirect('/');
+			else
+				$isuser = User::select('id')->where('id', Auth::user()->id)->first();
+		}
 		
 		if(isset($isuser))
 		{
@@ -102,10 +112,13 @@ class AdminCommandController extends Controller
 	
 	public function showUsers()
 	{
-		if(Auth::guest())
-			return redirect('/');
-		else
-			$isuser = User::select('id')->where('id', Auth::user()->id)->first();
+		if(!Auth::guard('admin')->check())
+		{
+			if(Auth::guest())
+				return redirect('/');
+			else
+				$isuser = User::select('id')->where('id', Auth::user()->id)->first();
+		}
 		
 		if(isset($isuser))
 		{
